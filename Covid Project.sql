@@ -317,7 +317,36 @@ select
 from 
   percentpopulationvaccinated;
 
+--Queries used for Tableau project
+--1.
 
+  Select sum(new_cases) as total_cases, sum(new_deaths) as total_deaths, sum(new_deaths*1.0)/sum(new_cases)*100 as DeathPercentage
+  from PortfolioProject.dbo.[Covid Deaths]
+  where continent is not null
+  order by 1,2;
+
+  --2.
+
+  Select location,sum(new_deaths) as TotalDeathCount
+  from PortfolioProject.dbo.[Covid Deaths]
+  where continent is null
+  and location not in ('World','European Union','High income','Upper middle income','Lower middle income','Low income')
+  Group by location
+  order by TotalDeathCount desc;
+
+  --3.
+
+  select location, population, max(total_cases) as Highestinfectioncount, max((total_cases*1.0/population))*100 as PercentPopulationInfected
+  from PortfolioProject.dbo.[Covid Deaths]
+  group by location,population
+  order by PercentPopulationInfected desc;
+
+  --4. 
+
+  Select location, population,date,max(total_cases) as Highestinfectioncount, max((total_cases*1.0/population))*100 as PercentPopulationInfected
+  from PortfolioProject.dbo.[Covid Deaths]
+  group by location,population,date
+  order by PercentPopulationInfected desc;
 
 
 

@@ -10,12 +10,13 @@ FROM
     
 /*Agents who responded in timely manner*/
 SELECT 
-    agent_id, response_time
+    agent_id, response_time,count(*) as num_calls
 FROM
     call_center_data
 WHERE
     response_time IN ('Below SLA' , 'Within SLA')
-ORDER BY agent_id;
+GROUP BY agent_id,response_time
+ORDER BY num_calls Desc;
 
 SELECT DISTINCT
     (agent_id), response_time
@@ -24,13 +25,14 @@ FROM
 ORDER BY agent_id;
 
 
-    
 SELECT 
-    agent_id, response_time
+    agent_id, response_time,count(*) as num_calls
 FROM
     call_center_data
 WHERE
-    response_time = 'Above SLA';
+    response_time = 'Above SLA'
+GROUP BY agent_id,response_time
+ORDER BY num_calls Desc;
     
 SELECT 
     COUNT(DISTINCT (agent_id)), response_time
